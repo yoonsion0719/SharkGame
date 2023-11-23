@@ -30,15 +30,16 @@ int main(int argc, char *argv[]) {
 	opening();
 	
 	//1.초기화/플레이어 이름
-	int board_initBoard(void);
+	board_initBoard();
 	
 	
 	//2.반복문 (플레이어 턴을 도는)
 	do {
 		int step = rolldie();
 		int coinResult;
+		char c;
 		
-		board_printBoardStatus(pos);
+		board_printBoardStatus();
 		
 		pos +=step;
 		printf("");
