@@ -114,9 +114,11 @@ int getWinner(void)
 	int i;
 	int winner=0;
 	int max_coin=-1;
+	
 	for (i=0;i<N_PLAYER;i++)
 	{
 		if (player_coin[i]>max_coin)
+			max_coin=player_coin[i];
 			winner=i;
 	}
 	
