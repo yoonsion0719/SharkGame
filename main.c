@@ -19,7 +19,7 @@ int player_coin[N_PLAYER];
 int player_status[N_PLAYER];
 char player_statusString[3][MAX_CHARNAME]= {"LIVE","DIE","END"};
 
-
+           
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
 void opening(void)
 {
@@ -119,6 +119,8 @@ int getWinner(void)
 	{
 		if (player_coin[i]>max_coin)
 			max_coin=player_coin[i];
+			
+			if (player_status[i]==PLAYERSTATUS_END)
 			winner=i;
 	}
 	
@@ -169,7 +171,7 @@ int main(int argc, char *argv[]) {
 		//2.1. status printing
 		board_printBoardStatus();
 		for (i=0;i<N_PLAYER;i++)
-			printPlayerPosition(turn);
+			printPlayerPosition(i);
 		printPlayerStatus();
 		
 		
@@ -190,8 +192,11 @@ int main(int argc, char *argv[]) {
 		player_position[turn]+=step;
 		if (player_position[turn]>=N_BOARD)
 			player_position[turn]=N_BOARD-1;
+		if (player_position[turn]==N_BOARD-1)
+		{
 			player_status[turn]=PLAYERSTATUS_END;
-			//printf() 
+			printf("%s reached to the end!! (coin : %d)\n", player_name[turn], player_coin[turn]);
+		}	
 			
 		
 		
@@ -213,20 +218,22 @@ int main(int argc, char *argv[]) {
 		//2.6 상어의 동작 (모든 플레이어가 턴을 돎) 
 		if (turn == 0)
 		{
-			int shark_pos = board_stepShark();
-			printf("Shark moved to %i\n", shark_pos);
+			board_sharkPosit = board_stepShark();
+			printf("Shark moved to %i\n", board_sharkPosit);
 			//check die
 			checkDie();
 		}
-			
 		
 		
 		
 	} while(game_end()==0);
+	
+	
 	//3. 정리(승자 계산, 출력) 
-	getAlivePlayer();
+	printf("GAME END!!\n");
+	printf("%d players are alive! ", getAlivePlayer());
 	int a=getWinner();
-	printf("%s", player_name[a]);
+	printf("the winner is : %s", player_name[a]);
 	
 	return 0;
 }
